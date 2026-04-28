@@ -1,4 +1,5 @@
 "use client";
+
 import { authClient } from "@/lib/auth-client";
 import { Check } from "@gravity-ui/icons";
 import {
@@ -11,50 +12,34 @@ import {
   TextField,
 } from "@heroui/react";
 
-function SignupPage() {
+function SignInPage() {
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const userData = Object.fromEntries(formData.entries());
-    const { data, error } = await authClient.signUp.email({
-      name: userData.name, // required
+    const { data, error } = await authClient.signIn.email({
       email: userData.email, // required
       password: userData.password, // required
+      rememberMe: true,
       callbackURL: "/",
     });
-
     if (data) {
       alert(`Form submitted with: ${JSON.stringify(data, null, 2)}`);
     }
 
     if (error) {
-      alert(`Form submitted with: ${JSON.stringify(error.message, null, 2)}`);
+      alert(`${JSON.stringify(error.message, null, 2)}`);
     }
   };
 
   return (
-    <>
-      <h1 className=" text-3xl font-bold text-center my-4 ">Signup Here</h1>
+    <div>
+      <h1 className=" text-3xl font-bold text-center my-4 ">SignInPage</h1>
 
       <Form
         className="flex w-96 mx-auto my-20 border rounded-sm p-5 flex-col gap-4"
         onSubmit={onSubmit}
       >
-        <TextField
-          isRequired
-          name="name"
-          validate={(value) => {
-            if (value.length < 3) {
-              return "Name must be at least 3 characters";
-            }
-            return null;
-          }}
-        >
-          <Label>Name</Label>
-          <Input name="name" placeholder="John Doe" />
-          <FieldError />
-        </TextField>
-
         <TextField
           isRequired
           name="email"
@@ -67,7 +52,7 @@ function SignupPage() {
           }}
         >
           <Label>Email</Label>
-          <Input name="email" placeholder="john@example.com" />
+          <Input placeholder="john@example.com" />
           <FieldError />
         </TextField>
         <TextField
@@ -89,7 +74,7 @@ function SignupPage() {
           }}
         >
           <Label>Password</Label>
-          <Input name="password" placeholder="Enter your password" />
+          <Input placeholder="Enter your password" />
           <Description>
             Must be at least 8 characters with 1 uppercase and 1 number
           </Description>
@@ -105,8 +90,8 @@ function SignupPage() {
           </Button>
         </div>
       </Form>
-    </>
+    </div>
   );
 }
 
-export default SignupPage;
+export default SignInPage;

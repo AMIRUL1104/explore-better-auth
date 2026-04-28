@@ -14,6 +14,9 @@ export default function Home() {
             <Link href="/auth/signup" className="text-blue-500 hover:underline">
               SignUp{" "}
             </Link>
+            <Link href="/auth/signin" className="text-blue-500 hover:underline">
+              Signin{" "}
+            </Link>
           </div>
         </div>
       </main>
